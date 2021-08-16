@@ -22,6 +22,7 @@ In my last job I nedded to find the most similar pair of lines. This was the bes
 ## How is it used?
 
 More kind situations is the solution needed (environment, time, etc.) More kind of needs should be taken into account.
+
 Becouse images will make README look nice! There is a cat:
 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Sleeping_cat_on_her_back.jpg" width="300">
 
