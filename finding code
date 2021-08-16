@@ -1,0 +1,59 @@
+import math
+import numpy as np
+
+text = '''Artificial intelligence to describe machines 
+that mimic cognitive functions that humans associate with the 
+human mind, such as learning and problem solving'''
+
+def distance(a, b):
+    sum = 0
+    for ai, bi in zip(a, b):
+        sum = sum + (ai - bi)**2
+    return np.sqrt(sum)
+
+def main(text):
+    # tasks your code should perform:
+
+   
+    # docs = [line.lower().split() for line in text.split('\n')]
+    docs = [line.lower().split() for line in text.split('\n')]
+    docdictionary = {}
+    linedictionaries = []
+    for line in docs:
+        linedictionary = {}
+        for word in line:
+            if word in linedictionary.keys():
+                linedictionary[word] += 1
+            else:
+                linedictionary[word] = 1
+            if word in docdictionary.keys():
+                docdictionary[word] += 1
+            else:
+                docdictionary[word] = 1
+        linedictionaries.append(linedictionary)
+    # vector
+    tfidf_vector = []
+    lineindex = 0
+    for line in docs:
+        line_vector = []
+        for word in line:
+            line_vector.append(linedictionaries[lineindex][word] * math.log(1/docdictionary[word]))
+        tfidf_vector.append(line_vector)
+        lineindex += 1
+    # calculate the distances between each line to find which are the closest.
+    outerrow = []
+    outerrowindex = 0
+    for row in tfidf_vector:
+        innerrowindex = 0
+        innerrow = []
+        for secondrow in tfidf_vector:
+            if innerrowindex == outerrowindex:
+                innerrow.append(np.inf)
+            else:
+                innerrow.append(distance(row, secondrow))
+            innerrowindex += 1
+        outerrow.append(innerrow)
+        outerrowindex += 1
+    dist = np.stack(outerrow)        
+    print(np.unravel_index(np.argmin(dist), dist.shape))
+main(text)
